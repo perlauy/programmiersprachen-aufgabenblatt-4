@@ -115,7 +115,11 @@ class List {
      * Default Constructor
      * Creates an empty list begin and end point to nullptr
      */
-    List() {}
+    List() :
+      size_{0},
+      first_{nullptr},
+      last_{nullptr}
+    {}
 
     /* DESCRIPTION
      * Copy Constructor 
@@ -277,16 +281,14 @@ class List {
      * Returns true if no elements in the list (size is 0), false otherwise 
      */
     bool empty() const {
-      //not implemented yet
-      return false;
+      return size_ == 0;
     };
 
     /* DESCRIPTION
      * Returns the amount of elements in the list 
      */
-    std::size_t size() {
-      //not implemented yet
-      return std::numeric_limits<std::size_t>::max();
+    std::size_t size() const {
+      return size_;
   };
 
 
