@@ -177,7 +177,7 @@ class List {
      * Empties the list 
      */
     ~List() {
-      //TO IMPLEMENT PROPERLY
+      clear();
     }
 
     /* DESCRIPTION
@@ -204,7 +204,10 @@ class List {
      * Removes (and destroys) all elements from the list and leaves it with size 0 
      */
     void clear() {
-      ////not implemented yet
+      while(size_ > 0) {
+        pop_back();
+      }
+
     }
 
     /* DESCRIPTION

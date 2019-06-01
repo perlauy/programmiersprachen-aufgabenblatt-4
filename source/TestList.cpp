@@ -11,7 +11,7 @@ TEST_CASE (" create list ", "[create_list]")
   REQUIRE (testList.empty());
 }
 
-TEST_CASE ("add an element with push_front ", "[modifiers1]")
+TEST_CASE ("add an element with push_front", "[modifiers]")
 {
   List<int> list;
   list.push_front(42);
@@ -22,7 +22,7 @@ TEST_CASE ("add an element with push_front ", "[modifiers1]")
   REQUIRE (9 == list.front());
   REQUIRE (42 == list.back());
 }
-TEST_CASE ("add an element with push_back ", "[modifiers2]")
+TEST_CASE ("add an element with push_back", "[modifiers]")
 {
   List<int> list;
   list.push_back(0);
@@ -33,7 +33,7 @@ TEST_CASE ("add an element with push_back ", "[modifiers2]")
   REQUIRE (65 == list.back());
   REQUIRE (0 == list.front());
 }
-TEST_CASE ("remove an element with pop_front ", "[modifiers3]")
+TEST_CASE ("remove an element with pop_front", "[modifiers]")
 {
   List<int> list;
   list.push_front(42);
@@ -46,7 +46,7 @@ TEST_CASE ("remove an element with pop_front ", "[modifiers3]")
   list.pop_front();
   REQUIRE (0 == list.size());
 }
-TEST_CASE ("remove an element with pop_back ", "[modifiers4]")
+TEST_CASE ("remove an element with pop_back", "[modifiers]")
 {
   List<int> list;
   list.push_front(42);
@@ -59,6 +59,16 @@ TEST_CASE ("remove an element with pop_back ", "[modifiers4]")
   REQUIRE (3 == list.front());
   list.pop_back();
   REQUIRE (0 == list.size());
+}
+TEST_CASE ("should be empty after clearing", "[modifiers]")
+{
+  List<int> list;
+  list.push_front(1);
+  list.push_front(2);
+  list.push_front(3);
+  list.push_front(4);
+  list.clear();
+  REQUIRE (list.empty());
 }
 
 int main (int argc , char * argv [])
