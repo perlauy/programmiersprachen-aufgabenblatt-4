@@ -228,30 +228,75 @@ class List {
      * It adds a new element T to the list as first element 
      */
     void push_front(T const& element) {
-      //not implemented yet
+      // Copy construct and assign new ref to pointer
+		  first_ = new ListNode<T>{T(element), nullptr, first_ };
+      if (size_ == 0) {
+        // If it is the first added element, then it will also be the last
+        last_ = first_;
+      } else {
+        // If there are already other elements, then the previous first (now second)
+        // needs to change its prev pointer from 'nullptr' to the new first
+        first_->next->prev = first_;
+      }
+      ++size_;
     }
 
     /* DESCRIPTION
      * It adds a new element T to the list as last element 
      */
     void push_back(T const& element) {
-      //not implemented yet
+      // Copy construct and assign new ref to pointer
+		  last_ = new ListNode<T>{T(element), last_, nullptr};
+      if (size_ == 0) {
+        // If it is the first added element, then it will also be the first
+        first_ = last_;
+      } else {
+        // If there are already other elements, then the previous last (now second last)
+        // needs to change its next pointer from 'nullptr' to the new last
+        last_->prev->next = last_;
+      }
+      ++size_;
     }
 
     /* DESCRIPTION
      * It removes the first element of the list
      */
     void pop_front() {
-      assert(!empty());
-      //not implemented yet
+      assert(!empty()); //abort if already empty
+      // Store the pointer to the second (it will be the new first) before delete
+      ListNode<T>* n = first_->next;
+      // delete the first node, to avoid memory leak
+      delete first_;
+      first_ = n;
+      --size_;
+      if (empty()) {
+        // If the list is now empty, the last element will be nullptr
+        last_ = nullptr;
+      } else {
+        // if not, we can assign the (existing) new first element, a nullptr as prev
+        first_->prev = nullptr;
+      }
     }
 
     /* DESCRIPTION
      * It removes the last element of the list
      */
     void pop_back() {
-      assert(!empty());
-    //not implemented yet
+      assert(!empty()); //abort if already empty
+      // Store the pointer to the second last (it will be the new last) before delete
+      ListNode<T>* n = last_->prev;
+      // delete the last node, to avoid memory leak
+      delete last_;
+      // now assign the pointer to the new last element
+      last_ = n;
+      --size_;
+      if (empty()) {
+        // If the list is now empty, the first element will be nullptr
+        first_ = nullptr;
+      } else {
+        // if not, we can assign the (existing) new last element, a nullptr as next
+        last_->next = nullptr;
+      }
     }
 
     /* DESCRIPTION
@@ -259,10 +304,7 @@ class List {
      */
     T& front() {
       assert(!empty());
-      //not implemented yet
-      
-      return T(); //<- obviously wrong because of 
-            // returned reference to tmp-Object
+      return first_->value;
     }
    
     /* DESCRIPTION
@@ -270,11 +312,7 @@ class List {
      */
     T& back() {
       assert(!empty());
-
-      //not implemented yet
-
-      return T(); //<- obviously wrong because of
-            // returned reference to tmp-Object
+      return last_->value;
     }
 
     /* DESCRIPTION
