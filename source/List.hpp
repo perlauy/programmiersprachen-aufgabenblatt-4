@@ -12,7 +12,7 @@ class List;
 
 template <typename T>
 struct ListNode {
-  T         value = T ();
+  T         value = T();
   ListNode* prev = nullptr;
   ListNode* next = nullptr;
 };
@@ -30,9 +30,8 @@ struct ListIterator {
   /* DESCRIPTION  operator*() 
    * When called on the iterator like It*, returns a reference to the value of the Node.
    */
-  T&  operator*()  const {
-    //not implemented yet
-    return {};
+  T& operator*()  const {
+    return node->value;
   } 
 
   /* DESCRIPTION  operator->()
@@ -40,35 +39,36 @@ struct ListIterator {
    * 
    */
   T* operator->() const {
-    //not implemented yet
-    return nullptr;
+    return &(node->value);
   }
 
-  /* DESCRIPTION operator++() 
-   * It++ will return a reference to the iterator of the next element in the list
+  /* DESCRIPTION operator++() > PREINCREMENT
+   * ++It will change the node to the one next to it in the list,
+   * and return a reference to the iterator
    *
    */
   ListIterator<T>& operator++() {
-    //not implemented yet
-    return {};
-  } //PREINCREMENT
+    node = node->next;
+    return *this;
+  }
 
   
-  /* DESCRIPTION operator++() 
-   * It++(int) will return the iterator that is next at so many steps as specified (param int).
-   * @param int - How many iterators to "advance"
+  /* DESCRIPTION operator++() > POSTINCREMENT
+   * It++ will change the node to the one next to it in the list,
+   * and return a copy of the iterator from before the change
    */
   ListIterator<T> operator++(int) {
-    //not implemented yet
-    return {};
-  } //POSTINCREMENT (signature distinguishes)
+    ListIterator<T> copy{this};
+    node = node->next;
+    return copy;
+  }
 
   /* DESCRIPTION operator==()
    * ItA == ItB will return true if ItA and ItB refer to the same element in the list. It will return false if otherwise. 
    * 
    */
   bool operator==(ListIterator<T> const& x) const {
-    //not implemented yet
+    return node == x.node;
   }
 
   
@@ -77,7 +77,7 @@ struct ListIterator {
    * 
    */
   bool operator!=(ListIterator<T> const& x) const {
-    //not implemented yet
+    return node != x.node;
   }
 
   
@@ -94,7 +94,7 @@ struct ListIterator {
   }
 
 
-  ListNode <T>* node = nullptr;
+  ListNode<T>* node = nullptr;
 };
 
 
@@ -178,6 +178,7 @@ class List {
      */
     ~List() {
       clear();
+
     }
 
     /* DESCRIPTION

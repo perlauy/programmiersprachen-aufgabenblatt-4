@@ -1,7 +1,9 @@
 #include "List.hpp"
+#include "circle.hpp"
 
 #define CATCH_CONFIG_RUNNER
 #include "catch.hpp"
+#include <iostream>
 
 TEST_CASE (" create list ", "[create_list]")
 {
@@ -69,6 +71,15 @@ TEST_CASE ("should be empty after clearing", "[modifiers]")
   list.push_front(4);
   list.clear();
   REQUIRE (list.empty());
+}
+TEST_CASE ("iterator", "[iterator]")
+{
+  List<Circle> circle_list;
+  circle_list.push_back({{400.f, 400.f}, 100.f, {0.f,0.5f,1.0f}, {0.f,1.f,1.0f}, "Niña"});
+  circle_list.push_back({{120.f, 600.f}, 50.f, {0.2f,0.6f,0.6f}, {1.f,1.f,1.f}, "Pinta"});
+  circle_list.push_back({{90.f, 500.f}, 80.f, {0.f,0.f,0.f}, {1.f,1.f,1.f}, "Santa María"});
+  auto c_it = circle_list.begin();
+  std :: cout << "Der Radius des 1. Circles in der Liste ist: " << c_it -> get_radius() << std::endl;
 }
 
 int main (int argc , char * argv [])
