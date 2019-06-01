@@ -185,20 +185,16 @@ class List {
      * Returns an Iterator pointing to the first element of the list
      */
     ListIterator<T> begin() {
-      assert(!empty());
-      ////not implemented yet
-      return ListIterator<T>{};
+      //assert(!empty());
+      return ListIterator<T>{first_};
     }
 
-
     /* DESCRIPTION
-     * Returns an Iterator pointing to the last element of the list
+     * Returns an Iterator pointing to the past-the-end element of the list (theoretical??)
      */
     ListIterator<T> end() {
-      assert(!empty());
-
-      ////not implemented yet
-      return ListIterator<T>{};
+      //assert(!empty());
+      return ListIterator<T>{nullptr};
     }
 
     /* DESCRIPTION

@@ -81,6 +81,19 @@ TEST_CASE ("iterator", "[iterator]")
   auto c_it = circle_list.begin();
   std :: cout << "Der Radius des 1. Circles in der Liste ist: " << c_it -> get_radius() << std::endl;
 }
+TEST_CASE ("should be an empty range after default construction", "[iterators]")
+{
+  List<int> list ;
+  auto b = list.begin();
+  auto e = list.end();
+  REQUIRE (b == e);
+}
+TEST_CASE ("provide access to the first element with begin", "[iterators]")
+{
+  List<int> list ;
+  list.push_front (42);
+  REQUIRE (42 == *list.begin());
+}
 
 int main (int argc , char * argv [])
 {
