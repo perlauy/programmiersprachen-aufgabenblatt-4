@@ -192,6 +192,25 @@ TEST_CASE ("copy with std", "[std_copy]")
   REQUIRE (*(++to_vector.begin()) == 3);
 }
 
+
+TEST_CASE ("initialization list constructor", "[constructor]")
+{
+  List<int> int_list{9, 5, 38, 100};
+  REQUIRE (int_list.front() == 9);
+  REQUIRE (int_list.back() == 100);
+  REQUIRE (*(++int_list.begin()) == 5);
+}
+
+TEST_CASE ("concatenate lists", "[concatenate]")
+{
+  List<int> int_list = List<int>{1, 2} + List<int>{5, 6};
+  REQUIRE (int_list.front() == 1);
+  REQUIRE (int_list.back() == 6);
+  REQUIRE (*(++int_list.begin()) == 2);
+
+  auto l = List <int >{1 , 2, 3, 4, 5} + List <int >{6 , 7, 8, 9};
+}
+
 int main (int argc , char * argv [])
 {
   return Catch::Session().run(argc, argv);

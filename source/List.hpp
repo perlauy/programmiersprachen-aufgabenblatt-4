@@ -160,15 +160,16 @@ class List {
         rhs.last_ = nullptr;
     }
 
-
-    //TODO: Initializer-List Konstruktor (4.14)
     /* DESCRIPTION
      * Initializer-List Constructor 
      * A series of elements is passed between {} (an initializer list) as argument, which will be the nodes of the constructed list.
      * 
      */
     List(std::initializer_list<T> ini_list) {
-      //not implemented yet
+      size_ = 0;
+      for(auto el : ini_list) {
+        push_back(el);
+      };
     }
 
     /* DESCRIPTION
@@ -275,15 +276,6 @@ class List {
      * It inverts the order of the list elements.
      */
     void reverse() {
-      /*if (size_ > 1) { //else, nothing to reverse
-        // can't use for loop with iterator, because im changing the next attribute.
-
-        for(auto it = begin(); it != end(); ++it) {
-          ListNode<T>* old_prev = it.node->prev;
-          it.node->prev = it.node->next;
-          it.node->next = old_prev;
-        }
-      }*/
       ListNode<T>* queued = first_;
       first_ = last_;
       last_= queued;
@@ -419,12 +411,15 @@ List<T> reverse(List<T> const& list) {
 } 
 
 /* DESCRIPTION
- *  
+ * Concatenate two lists into a third
  */
 template<typename T>
 List<T> operator+(List<T> const& lhs, List<T> const& rhs) {
-  //TODO: Freie Funktion operator+ (4.14)
-  return List{};
+  List<T> concatenated_list{lhs};
+  for(auto el : rhs) {
+    concatenated_list.push_back(el);
+  }
+  return concatenated_list;
 } 
 
 
