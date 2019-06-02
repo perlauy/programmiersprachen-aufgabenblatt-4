@@ -4,7 +4,7 @@
 #include <cstddef>  //ptrdiff_t
 #include <iterator> //std::bidirectional_iterator_tag
 #include <iostream>
-
+#include <utility>
 #include <initializer_list>
 
 template <typename T>
@@ -175,9 +175,16 @@ class List {
      * Assigns the given list a deep-copy of the list passed as argument
      * (creates a copy of each element).
      */
-    List<T>& operator=(List<T> const&) {
-      //TODO: Assignment operator (Aufgabe 4.12)
+    List<T>& operator=(List<T> const& rhs) {
+      swap(rhs);
       return *this;
+    }
+    /* DESCRIPTION
+     * Implement swap member funciton to use in operator=
+     */
+    void swap (List<T>& rhs) {
+      std::swap(first_, rhs.first_);
+      std::swap(last_, rhs.last_);
     }
 
     /* DESCRIPTION

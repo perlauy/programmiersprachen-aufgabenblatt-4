@@ -170,7 +170,8 @@ TEST_CASE ("reverse list", "[modifiers]")
   REQUIRE (list.back() == 4);
   REQUIRE (*list.begin().next() == 2);
 
-  List<int> reversed_list(reverse(list)); //Move constructor needs to be implemented -> 4.13 ^
+  //List<int> reversed_list(reverse(list)); //Move constructor needs to be implemented -> 4.13 ^
+  List<int> reversed_list = reverse(list); //Changed back to operator=, now implemented
   REQUIRE (reversed_list.front() == 4);
   REQUIRE (reversed_list.back() == 1);
   REQUIRE (*reversed_list.begin().next() == 3);
