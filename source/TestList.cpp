@@ -112,7 +112,7 @@ TEST_CASE ("prove two lists are equal", "[equal]")
   REQUIRE (list1 != list3);
 }
 
-TEST_CASE (" copy constructor ", "[constructor]")
+TEST_CASE ("copy constructor", "[constructor]")
 {
   List<int> list ;
   list.push_front(1);
@@ -121,6 +121,20 @@ TEST_CASE (" copy constructor ", "[constructor]")
   list.push_front(4);
   List<int> list2{list};
   REQUIRE (list == list2);
+}
+TEST_CASE ("insert new node", "[insert]")
+{
+  List<int> list;
+  list.push_front(1);
+  list.push_front(2);
+  list.push_front(3);
+  list.push_front(4);
+  list.insert(list.begin().next(), 8);
+  REQUIRE (*list.begin().next() == 8);
+  list.insert(list.begin(), 5);
+  REQUIRE (list.front() == 5);
+  list.insert(list.end(), 6);
+  REQUIRE (list.back() == 6);
 }
 
 int main (int argc , char * argv [])

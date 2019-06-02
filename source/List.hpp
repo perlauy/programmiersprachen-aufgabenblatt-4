@@ -72,7 +72,7 @@ struct ListIterator {
   }
 
   
-  /* DESCRIPTION operator==()
+  /* DESCRIPTION operator!=()
    * ItA != ItB will return false if ItA and ItB refer to the same element in the list. It will return true if they are the same.
    * 
    */
@@ -81,7 +81,7 @@ struct ListIterator {
   }
 
   
-  /* DESCRIPTION operator==()
+  /* DESCRIPTION
    * It.next() returns the iterator of the next element in the list.
    * If it is the "end" iterator, will return nullptr
    */
@@ -92,8 +92,20 @@ struct ListIterator {
       return ListIterator{nullptr};
     }
   }
-
-
+  
+  
+  /* DESCRIPTION
+   * It.prev() returns the iterator of the previous element in the list.
+   * If it is the "begin" iterator, will return nullptr
+   */
+  ListIterator<T> prev() const {
+    if (nullptr != node) {
+      return ListIterator{node->prev};
+    } else {
+      return ListIterator{nullptr};
+    }
+  }
+  
   ListNode<T>* node = nullptr;
 };
 
@@ -225,8 +237,20 @@ class List {
      * It returns the iterator of the new element. 
      */
     ListIterator<T> insert(ListIterator<T> pos, T const& value) {
-      //TODO: member function insert
-      return ListIterator<T>{};
+      if(pos == begin()) {
+        push_front(value);
+        return begin();
+      } else if(pos == end()) {
+        push_back(value);
+        return end().prev();
+      } else {
+        ListNode<T>* node = new ListNode<T>{T(value), pos.prev().node, pos.node};
+        if(pos.node->prev != nullptr) 
+          pos.prev().node->next = node;
+        if(pos.node != nullptr)
+          pos.node->prev = node;
+        return ListIterator<T>{node};
+      }
     }
 
     /* DESCRIPTION
