@@ -28,9 +28,9 @@ struct ListIterator {
 
 
   /* DESCRIPTION  operator*() 
-   * When called on the iterator like It*, returns a reference to the value of the Node.
+   * When called on the iterator like *It, returns a reference to the value of the Node.
    */
-  T& operator*()  const {
+  T& operator*() const {
     return node->value;
   } 
 
@@ -99,6 +99,7 @@ struct ListIterator {
 
 
 
+//template <typename T>
 template <typename T>
 class List {
   public:
@@ -126,7 +127,11 @@ class List {
      *
      */
     //TODO: Copy-Konstruktor using Deep-Copy semantics (Aufgabe 4.8)
-    List(List<T> const&) {}
+    List(List<T> const& rhs) : {
+      for(auto it = rhs.begin(); it != rhs.end(); ++it) {
+        push_back(*it);
+      }
+    }
 
     /* DESCRIPTION
      * Move Constructor
@@ -159,8 +164,18 @@ class List {
      * Returns true if the contents of the containers are equal, false otherwise
      */
     bool operator==(List<T> const& rhs) {
-      //TODO: operator== (Aufgabe 4.7)
-      return false;
+      if(size() == rhs.size()) {
+        auto it_rhs = rhs.begin();
+        for(auto it = begin(); it != end(); ++it) {
+          if(*it != *it_rhs) {
+            return false;
+          };
+          ++it_rhs;
+        }
+        return true;
+      } else {
+        return false;
+      }
     }
 
     /* DESCRIPTION
@@ -168,8 +183,7 @@ class List {
      * Returns true if the contents of the containers are not equal, false otherwise
      */
     bool operator!=(List<T> const& rhs) { 
-      //TODO: operator!= (Aufgabe 4.7)
-      return false
+      return !(*this==rhs);
     }
 
     /* DESCRIPTION
@@ -184,7 +198,7 @@ class List {
     /* DESCRIPTION
      * Returns an Iterator pointing to the first element of the list
      */
-    ListIterator<T> begin() {
+    ListIterator<T> begin() const {
       //assert(!empty());
       return ListIterator<T>{first_};
     }
@@ -192,7 +206,7 @@ class List {
     /* DESCRIPTION
      * Returns an Iterator pointing to the past-the-end element of the list (theoretical??)
      */
-    ListIterator<T> end() {
+    ListIterator<T> end() const {
       //assert(!empty());
       return ListIterator<T>{nullptr};
     }
@@ -204,7 +218,6 @@ class List {
       while(size_ > 0) {
         pop_back();
       }
-
     }
 
     /* DESCRIPTION

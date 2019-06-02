@@ -91,10 +91,38 @@ TEST_CASE ("should be an empty range after default construction", "[iterators]")
 TEST_CASE ("provide access to the first element with begin", "[iterators]")
 {
   List<int> list ;
-  list.push_front (42);
+  list.push_front(42);
   REQUIRE (42 == *list.begin());
 }
-
+TEST_CASE ("prove two lists are equal", "[equal]")
+{
+  List<int> list1;
+  list1.push_front(4);
+  list1.push_front(5);
+  list1.push_front(6);
+  List<int> list2;
+  list2.push_front(4);
+  list2.push_front(5);
+  list2.push_front(6);
+  REQUIRE (list1 == list2);
+  List<int> list3;
+  list3.push_front(5);
+  list3.push_front(6);
+  list3.push_front(7);
+  REQUIRE (list1 != list3);
+}
+/*
+TEST_CASE (" copy constructor ", "[constructor]")
+{
+  List<int> list ;
+  list.push_front(1);
+  list.push_front(2);
+  list.push_front(3);
+  list.push_front(4);
+  List<int> list2{list};
+  REQUIRE (list == list2);
+}
+*/
 int main (int argc , char * argv [])
 {
   return Catch::Session().run(argc, argv);
