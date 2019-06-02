@@ -3,6 +3,7 @@
 
 #define CATCH_CONFIG_RUNNER
 #include "catch.hpp"
+#include <vector>
 #include <iostream>
 
 TEST_CASE (" create list ", "[create_list]")
@@ -173,6 +174,21 @@ TEST_CASE ("reverse list", "[modifiers]")
   REQUIRE (reversed_list.front() == 4);
   REQUIRE (reversed_list.back() == 1);
   REQUIRE (*reversed_list.begin().next() == 3);
+}
+
+TEST_CASE ("copy with std", "[std_copy]")
+{
+  List<int> list;
+  list.push_front(1);
+  list.push_front(2);
+  list.push_front(3);
+  list.push_front(4);
+  
+  std::vector<int> to_vector;
+  std::copy(list.begin(), list.end(), std::back_inserter(to_vector));
+  REQUIRE (to_vector.front() == 4);
+  REQUIRE (to_vector.back() == 1);
+  REQUIRE (*(++to_vector.begin()) == 3);
 }
 
 int main (int argc , char * argv [])
