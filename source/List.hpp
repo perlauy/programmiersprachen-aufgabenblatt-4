@@ -127,10 +127,10 @@ class List {
      *
      */
     //TODO: Copy-Konstruktor using Deep-Copy semantics (Aufgabe 4.8)
-    List(List<T> const& rhs) : {
+    List(List<T> const& rhs) {
       for(auto it = rhs.begin(); it != rhs.end(); ++it) {
         push_back(*it);
-      }
+      };
     }
 
     /* DESCRIPTION

@@ -111,7 +111,7 @@ TEST_CASE ("prove two lists are equal", "[equal]")
   list3.push_front(7);
   REQUIRE (list1 != list3);
 }
-/*
+
 TEST_CASE (" copy constructor ", "[constructor]")
 {
   List<int> list ;
@@ -122,7 +122,7 @@ TEST_CASE (" copy constructor ", "[constructor]")
   List<int> list2{list};
   REQUIRE (list == list2);
 }
-*/
+
 int main (int argc , char * argv [])
 {
   return Catch::Session().run(argc, argv);
