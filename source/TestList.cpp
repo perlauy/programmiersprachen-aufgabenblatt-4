@@ -121,8 +121,9 @@ TEST_CASE ("copy constructor", "[constructor]")
   list.push_front(4);
   List<int> list2{list};
   REQUIRE (list == list2);
+  REQUIRE (list.front() == list2.front());
 }
-TEST_CASE ("insert new node", "[insert]")
+TEST_CASE ("insert new node", "[modifiers]")
 {
   List<int> list;
   list.push_front(1);
@@ -135,6 +136,43 @@ TEST_CASE ("insert new node", "[insert]")
   REQUIRE (list.front() == 5);
   list.insert(list.end(), 6);
   REQUIRE (list.back() == 6);
+}
+
+TEST_CASE ("move constructor", "[constructor]")
+{
+  List<int> list;
+  list.push_front(1);
+  list.push_front(2);
+  list.push_front(3);
+  list.push_front(4);
+  List<int> list2 = std::move(list);
+  REQUIRE (0 == list.size());
+  REQUIRE ( list.empty());
+  REQUIRE (4 == list2.size());
+}
+
+TEST_CASE ("reverse list", "[modifiers]")
+{
+  List<int> list;
+  list.reverse(); //it shouldn't crash
+  list.push_front(1);
+  
+  list.reverse(); //it shouldn't crash
+  REQUIRE (list.front() == 1);
+  REQUIRE (list.back() == 1);
+
+  list.push_front(2);
+  list.push_front(3);
+  list.push_front(4);
+  list.reverse(); //it shouldn't crash
+  REQUIRE (list.front() == 1);
+  REQUIRE (list.back() == 4);
+  REQUIRE (*list.begin().next() == 2);
+
+  List<int> reversed_list(reverse(list)); //Move constructor needs to be implemented -> 4.13 ^
+  REQUIRE (reversed_list.front() == 4);
+  REQUIRE (reversed_list.back() == 1);
+  REQUIRE (*reversed_list.begin().next() == 3);
 }
 
 int main (int argc , char * argv [])

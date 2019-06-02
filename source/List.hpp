@@ -139,7 +139,9 @@ class List {
      *
      */
     //TODO: Copy-Konstruktor using Deep-Copy semantics (Aufgabe 4.8)
-    List(List<T> const& rhs) {
+    List(List<T> const& rhs) 
+    {
+      size_ = 0;
       for(auto it = rhs.begin(); it != rhs.end(); ++it) {
         push_back(*it);
       };
@@ -149,8 +151,15 @@ class List {
      * Move Constructor
      *
      */
-    //TODO: Move-Konstruktor (Aufgabe 4.13)
-    List(List<T>&&) {}
+    List(List<T>&& rhs) :
+      size_(rhs.size_),
+      first_(rhs.first_),
+      last_(rhs.last_) {
+        rhs.size_ = 0;
+        rhs.first_ = nullptr;
+        rhs.last_ = nullptr;
+    }
+
 
     //TODO: Initializer-List Konstruktor (4.14)
     /* DESCRIPTION
@@ -211,7 +220,7 @@ class List {
      * Returns an Iterator pointing to the first element of the list
      */
     ListIterator<T> begin() const {
-      //assert(!empty());
+  //    assert(!empty());
       return ListIterator<T>{first_};
     }
 
@@ -219,7 +228,7 @@ class List {
      * Returns an Iterator pointing to the past-the-end element of the list (theoretical??)
      */
     ListIterator<T> end() const {
-      //assert(!empty());
+   //   assert(!empty());
       return ListIterator<T>{nullptr};
     }
 
@@ -249,6 +258,8 @@ class List {
           pos.prev().node->next = node;
         if(pos.node != nullptr)
           pos.node->prev = node;
+        
+        ++size_;
         return ListIterator<T>{node};
       }
     }
@@ -257,7 +268,24 @@ class List {
      * It inverts the order of the list elements.
      */
     void reverse() {
-      //TODO: member function reverse
+      /*if (size_ > 1) { //else, nothing to reverse
+        // can't use for loop with iterator, because im changing the next attribute.
+
+        for(auto it = begin(); it != end(); ++it) {
+          ListNode<T>* old_prev = it.node->prev;
+          it.node->prev = it.node->next;
+          it.node->next = old_prev;
+        }
+      }*/
+      ListNode<T>* queued = first_;
+      first_ = last_;
+      last_= queued;
+      while(queued != nullptr) {
+          ListNode<T>* next_queued = queued->next;
+          queued->next = queued->prev;
+          queued->prev = next_queued;
+          queued = next_queued;
+      }
     }
 
 
@@ -378,8 +406,9 @@ class List {
  */
 template<typename T>
 List<T> reverse(List<T> const& list) {
-  //TODO: Freie Funktion reverse
-  return List{};
+  List<T> reversed_list{list};
+  reversed_list.reverse();
+  return reversed_list;
 } 
 
 /* DESCRIPTION
