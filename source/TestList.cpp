@@ -208,8 +208,10 @@ TEST_CASE ("concatenate lists", "[concatenate]")
   REQUIRE (int_list.back() == 6);
   REQUIRE (*(++int_list.begin()) == 2);
 
+  std::cout << "Aufgabe 4.14" << std::endl;
+
   auto l = List<int>{1, 2, 3, 4, 5} + List<int>{6, 7, 8, 9};
-  //counting stops t breaking point in move-constructor = 1
+  //counting stops at breaking point in move-constructor = 1
   //Everytime we return a new List (same with reverse) and assign it to a variable,
   //the move constructor is called.
 }

@@ -157,6 +157,10 @@ class List {
         rhs.size_ = 0;
         rhs.first_ = nullptr;
         rhs.last_ = nullptr;
+
+        #ifndef NDEBUG 
+        std::cout << "Called Move-Constructor" << std::endl;
+        #endif //NDEBUG
     }
 
     /* DESCRIPTION
