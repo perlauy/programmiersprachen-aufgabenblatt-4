@@ -138,7 +138,6 @@ class List {
      * Copy Constructor 
      *
      */
-    //TODO: Copy-Konstruktor using Deep-Copy semantics (Aufgabe 4.8)
     List(List<T> const& rhs) 
     {
       size_ = 0;
@@ -175,13 +174,16 @@ class List {
     /* DESCRIPTION
      * Assigns the given list a deep-copy of the list passed as argument
      * (creates a copy of each element).
+     * Here the parameter not passed as const&, because we need a copy
+     * anyway: passing it so creates the copy we will use to swap and then
+     * it will be destroyed once the function closes.
      */
-    List<T>& operator=(List<T> const& rhs) {
+    List<T>& operator=(List<T> rhs) {
       swap(rhs);
       return *this;
     }
     /* DESCRIPTION
-     * Implement swap member funciton to use in operator=
+     * Implement swap member function to use in operator=
      */
     void swap (List<T>& rhs) {
       std::swap(first_, rhs.first_);
@@ -221,14 +223,12 @@ class List {
      */
     ~List() {
       clear();
-
     }
 
     /* DESCRIPTION
      * Returns an Iterator pointing to the first element of the list
      */
     ListIterator<T> begin() const {
-  //    assert(!empty());
       return ListIterator<T>{first_};
     }
 
@@ -236,7 +236,6 @@ class List {
      * Returns an Iterator pointing to the past-the-end element of the list (theoretical??)
      */
     ListIterator<T> end() const {
-   //   assert(!empty());
       return ListIterator<T>{nullptr};
     }
 
@@ -253,15 +252,15 @@ class List {
      * Inserts an element of type T in the list at the given position (ListIterator).
      * It returns the iterator of the new element. 
      */
-    ListIterator<T> insert(ListIterator<T> pos, T const& value) {
+    ListIterator<T> insert(ListIterator<T> pos, T const& element) {
       if(pos == begin()) {
-        push_front(value);
+        push_front(element);
         return begin();
       } else if(pos == end()) {
-        push_back(value);
+        push_back(element);
         return end().prev();
       } else {
-        ListNode<T>* node = new ListNode<T>{T(value), pos.prev().node, pos.node};
+        ListNode<T>* node = new ListNode<T>{T(element), pos.prev().node, pos.node};
         if(pos.node->prev != nullptr) 
           pos.prev().node->next = node;
         if(pos.node != nullptr)
