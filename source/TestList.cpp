@@ -84,16 +84,16 @@ TEST_CASE ("iterator", "[iterator]")
 }
 TEST_CASE ("should be an empty range after default construction", "[iterators]")
 {
-  List<int> list ;
-  auto b = list.begin();
-  auto e = list.end();
-  REQUIRE (b == e);
+  List<int> list;
+  REQUIRE (list.size() == 0);
 }
 TEST_CASE ("provide access to the first element with begin", "[iterators]")
 {
   List<int> list ;
   list.push_front(42);
   REQUIRE (42 == *list.begin());
+  *list.begin() = 36;
+  REQUIRE (*list.begin() == 36);
 }
 TEST_CASE ("prove two lists are equal", "[equal]")
 {
@@ -111,11 +111,16 @@ TEST_CASE ("prove two lists are equal", "[equal]")
   list3.push_front(6);
   list3.push_front(7);
   REQUIRE (list1 != list3);
+  List<int> empty_list_1;
+  List<int> empty_list_2;
+  REQUIRE (empty_list_1 == empty_list_2);
 }
 
 TEST_CASE ("copy constructor", "[constructor]")
 {
-  List<int> list ;
+  List<int> list;
+  List<int> emptyCopy{list};
+  REQUIRE (list == emptyCopy);
   list.push_front(1);
   list.push_front(2);
   list.push_front(3);
@@ -137,6 +142,7 @@ TEST_CASE ("insert new node", "[modifiers]")
   REQUIRE (list.front() == 5);
   list.insert(list.end(), 6);
   REQUIRE (list.back() == 6);
+  *list.begin() = 7;
 }
 
 TEST_CASE ("move constructor", "[constructor]")
@@ -192,9 +198,17 @@ TEST_CASE ("copy with std", "[std_copy]")
   REQUIRE (*(++to_vector.begin()) == 3);
 }
 
+struct x {
+  x() = default;
+  
+  float a = 0.0f;
+  float b = 0.0f;
+}
 
 TEST_CASE ("initialization list constructor", "[constructor]")
 {
+  x a{6.9f, 0.4f};
+
   List<int> int_list{9, 5, 38, 100};
   REQUIRE (int_list.front() == 9);
   REQUIRE (int_list.back() == 100);

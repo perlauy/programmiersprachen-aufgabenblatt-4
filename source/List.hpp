@@ -122,8 +122,6 @@ class List {
     using const_reference = T const&;
     using iterator        = ListIterator<T>;
 
-    // not implemented yet
-    // do not forget about the initialiser list !
     /* DESCRIPTION
      * Default Constructor
      * Creates an empty list begin and end point to nullptr
@@ -138,12 +136,16 @@ class List {
      * Copy Constructor 
      *
      */
-    List(List<T> const& rhs) 
+    List(List<T> const& rhs)  :
+      size_{0},
+      first_{nullptr},
+      last_{nullptr}
     {
-      size_ = 0;
-      for(auto it = rhs.begin(); it != rhs.end(); ++it) {
-        push_back(*it);
-      };
+      if (!rhs.empty()) {
+        for(auto it = rhs.begin(); it != rhs.end(); ++it) {
+          push_back(*it);
+        };
+      }
     }
 
     /* DESCRIPTION
@@ -200,12 +202,14 @@ class List {
      */
     bool operator==(List<T> const& rhs) {
       if(size() == rhs.size()) {
-        auto it_rhs = rhs.begin();
-        for(auto it = begin(); it != end(); ++it) {
-          if(*it != *it_rhs) {
-            return false;
-          };
-          ++it_rhs;
+        if (!empty()) {
+          auto it_rhs = rhs.begin();
+          for(auto it = begin(); it != end(); ++it) {
+            if(*it != *it_rhs) {
+              return false;
+            };
+            ++it_rhs;
+          }
         }
         return true;
       } else {
@@ -233,6 +237,7 @@ class List {
      * Returns an Iterator pointing to the first element of the list
      */
     ListIterator<T> begin() const {
+      //assert(!empty());
       return ListIterator<T>{first_};
     }
 
@@ -240,6 +245,7 @@ class List {
      * Returns an Iterator pointing to the past-the-end element of the list (theoretical??)
      */
     ListIterator<T> end() const {
+      //assert(!empty());
       return ListIterator<T>{nullptr};
     }
 
@@ -257,7 +263,10 @@ class List {
      * It returns the iterator of the new element. 
      */
     ListIterator<T> insert(ListIterator<T> pos, T const& element) {
-      if(pos == begin()) {
+        if(empty() && pos == end()) {
+          push_front(element);
+        } 
+        else if(pos == begin()) {
         push_front(element);
         return begin();
       } else if(pos == end()) {
@@ -280,14 +289,11 @@ class List {
      */
     void reverse() {
       ListNode<T>* queued = first_;
-      first_ = last_;
-      last_= queued;
       while(queued != nullptr) {
-          ListNode<T>* next_queued = queued->next;
-          queued->next = queued->prev;
-          queued->prev = next_queued;
-          queued = next_queued;
+        std::swap(queued->next, queued->prev);
+        queued = queued->prev;
       }
+      std::swap(first_, last_);
     }
 
 
