@@ -198,16 +198,9 @@ TEST_CASE ("copy with std", "[std_copy]")
   REQUIRE (*(++to_vector.begin()) == 3);
 }
 
-struct x {
-  x() = default;
-  
-  float a = 0.0f;
-  float b = 0.0f;
-}
 
 TEST_CASE ("initialization list constructor", "[constructor]")
 {
-  x a{6.9f, 0.4f};
 
   List<int> int_list{9, 5, 38, 100};
   REQUIRE (int_list.front() == 9);
